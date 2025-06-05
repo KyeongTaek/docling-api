@@ -15,6 +15,7 @@ class InputFormat(str, Enum):
     ASCIIDOC = "asciidoc"
     MD = "md"
     CSV = "csv"
+    XLSX = "xlsx"
 
 
 class OutputFormat(str, Enum):
@@ -33,6 +34,7 @@ FormatToExtensions: Dict[InputFormat, List[str]] = {
     InputFormat.IMAGE: ["jpg", "jpeg", "png", "tif", "tiff", "bmp"],
     InputFormat.ASCIIDOC: ["adoc", "asciidoc", "asc"],
     InputFormat.CSV: ["csv"],
+    InputFormat.XLSX: ["xlsx"], # "xltx", "xlsm", "xltm", "xlam", "xlsb"
 }
 
 FormatToMimeType: Dict[InputFormat, List[str]] = {
@@ -57,6 +59,7 @@ FormatToMimeType: Dict[InputFormat, List[str]] = {
     InputFormat.ASCIIDOC: ["text/asciidoc"],
     InputFormat.MD: ["text/markdown", "text/x-markdown"],
     InputFormat.CSV: ["text/csv"],
+    InputFormat.XLSX: ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]
 }
 MimeTypeToFormat = {mime: fmt for fmt, mimes in FormatToMimeType.items() for mime in mimes}
 
