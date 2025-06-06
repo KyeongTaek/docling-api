@@ -109,6 +109,13 @@ class DoclingDocumentConversion(DocumentConversionBase):
             if error:
                 return ConversionResult(filename=filename, error=error)
 
+
+        if filename.lower().endswith('.xlsx'):
+            file, error = handle_xlsx_file(file)
+            if error:
+                return ConversionResult(filename=filename, error=error)
+
+
         conv_res = doc_converter.convert(DocumentStream(name=filename, stream=file), raises_on_error=False)
         doc_filename = conv_res.input.file.stem
 
