@@ -12,7 +12,7 @@ from docling_core.types.doc import ImageRefMode, TableItem, PictureItem
 from fastapi import HTTPException
 
 from document_converter.schema import BatchConversionJobResult, ConversationJobResult, ConversionResult, ImageData
-from document_converter.utils import handle_csv_file
+from document_converter.utils import handle_csv_file, handle_xlsx_file
 
 logging.basicConfig(level=logging.INFO)
 IMAGE_RESOLUTION_SCALE = 4

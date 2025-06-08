@@ -5,6 +5,8 @@ from typing import Dict, List, Optional, Tuple
 
 import filetype
 
+import openpyxl
+
 
 class InputFormat(str, Enum):
     DOCX = "docx"
@@ -133,9 +135,10 @@ def handle_xlsx_file(file: BytesIO) -> Tuple[BytesIO, Optional[str]]:
     try:
         wb = openpyxl.load_workbook(filename=file, data_only=True) # create .xlsx from bytesio, converting formulas into values
         wb.save(newFile)
-        return newFile, err_msg
     except Exception as err:
-        err_msg = err
+        err_msg = str(err)
+
+    newFile.seek(0)
 
     return newFile, err_msg
 
