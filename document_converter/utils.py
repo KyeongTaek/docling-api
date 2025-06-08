@@ -96,7 +96,7 @@ def guess_format(obj: bytes, filename: str = None):
             return InputFormat.CSV
 
         mime = filetype.guess_mime(content)
-        if mime is None:
+        if mime is None: # mime type is not found
             ext = filename.rsplit(".", 1)[-1] if ("." in filename and not filename.startswith(".")) else ""
             mime = mime_from_extension(ext)
 
@@ -120,6 +120,25 @@ def handle_csv_file(file: BytesIO) -> Tuple[BytesIO, Optional[str]]:
         except UnicodeDecodeError:
             continue
     return file, f"Could not decode CSV file. Supported encodings: {', '.join(SUPPORTED_CSV_ENCODINGS)}"
+
+def handle_xlsx_file(file: BytesIO) -> Tuple[BytesIO, Optional[str]]:
+    """Handle XLSX file. reads the cell value, not the formula.
+
+    Returns:
+        Tuple[BytesIO, Optional[str]]: (processed file, error message if any)
+    """
+    err_msg = None
+
+    newFile = BytesIO() # var to place converted .xlsx
+    try:
+        wb = openpyxl.load_workbook(filename=file, data_only=True) # create .xlsx from bytesio, converting formulas into values
+        wb.save(newFile)
+        return newFile, err_msg
+    except Exception as err:
+        err_msg = err
+
+    return newFile, err_msg
+
 
 
 def mime_from_extension(ext):
